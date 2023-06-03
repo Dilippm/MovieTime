@@ -44,7 +44,7 @@ const AuthRegister = ({ onSubmit }) => {
         </IconButton>
       </Box>
       <Typography variant='h4' textAlign='center' marginTop={3}>
-        REGISTER
+       <b>REGISTER</b> 
       </Typography>
       <form onSubmit={handleSubmit}>
         <Box padding={6} display='flex' justifyContent='center' flexDirection='column' width={400} margin='auto'>
