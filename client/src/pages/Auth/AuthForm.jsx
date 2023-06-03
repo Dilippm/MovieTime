@@ -102,7 +102,7 @@ const AuthForm = ({ onSubmit }) => {
             type='password'
             name='password' /> 
           <Button sx={{ mt: 2, borderRadius: 10, bgcolor: '#2b2d42' }} type='submit' fullWidth variant='contained'>
-            Login
+           <b>Login</b> 
           </Button>
 
           <Link
