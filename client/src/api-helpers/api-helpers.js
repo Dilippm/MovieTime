@@ -1,6 +1,6 @@
 import axios from 'axios';
-require('dotenv').config();
-const  BaseURL=process.env.BASE_URL;
+import BaseURL from '../config'
+
 
 
 export const getAllMovies = async () => {

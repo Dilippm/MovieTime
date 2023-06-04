@@ -11,14 +11,34 @@ import UserRegistration from './pages/User/UserRegister';
 import OwnerLogin from './pages/Owner/OwnerLogin';
 import OwnerRegister from './pages/Owner/OwnerRegister';
 import OwnerHome from './pages/Owner/OwnerHome';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { adminActions, userActions } from './store';
+
 
 const App = () => {
+  const dispatch = useDispatch();
+  const isAdminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
+  const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const isOwnerLoggedIn = useSelector((state) => state.owner.isLoggedIn);
+  console.log("isAdminLoggedin", isAdminLoggedIn);
+  console.log("isUserLoggedin", isUserLoggedIn);
+  console.log("isOwnerLoggedin", isOwnerLoggedIn);
+
+  useEffect(() => {
+    if (localStorage.getItem("userId")) {
+      dispatch(userActions.login());
+    } else if (localStorage.getItem("adminId")) {
+      dispatch(adminActions.login());
+    }
+  }, [dispatch]);
 
   return (
     <div>
       <ToastContainer />
 
-      <section>
+      <section >
+       
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/movies" element={<Movies />} />
@@ -26,18 +46,23 @@ const App = () => {
           <Route path="/register" element={<UserRegistration />} />
         </Routes>
       </section>
-      <section>
+
+      <section >
+        
         <Routes>
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin_home" element={<Admin />} />
         </Routes>
       </section>
-      <section>
-        <Routes>
-          <Route path="/owner" element={<OwnerLogin />} />
-          <Route path="/owner_register" element={<OwnerRegister />} />
-          <Route path="/owner_home" element={<OwnerHome />} />
-        </Routes>
+
+      <section >
+       
+          <Routes>
+            <Route path="/owner" element={<OwnerLogin />} />
+            <Route path="/owner_register" element={<OwnerRegister />} />
+            <Route path="/owner_home" element={<OwnerHome />} />
+          </Routes>
+      
       </section>
     </div>
   );

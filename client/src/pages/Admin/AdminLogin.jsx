@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { Box, Button, FormLabel, Typography } from '@mui/material';
 import TextField from '@mui/material/TextField';
-
+import {useDispatch} from "react-redux"
 import {  useNavigate } from "react-router-dom";
 import { adminLogin } from '../../api-helpers/api-helpers';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import {adminActions } from "../../store"
 
 
 const AdminLogin = () => {
+  const dispatch= useDispatch();
+
   const navigate = useNavigate()
   const [inputs, setInputs] = useState(
     {  email: '', password: '' }
@@ -28,6 +30,8 @@ const AdminLogin = () => {
   try {
     const resData = await adminLogin(inputs); 
     if (resData) {
+      dispatch(adminActions.login())
+      localStorage.setItem("adminId",resData.id,resData.token)
       // Login success
       toast.success(resData.message);
       navigate('/admin_home');
@@ -44,7 +48,8 @@ const AdminLogin = () => {
   
 
   return (
-    <Box sx={{  display: 'flex',
+ 
+     <Box sx={{  display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
@@ -114,6 +119,8 @@ const AdminLogin = () => {
       />
 </Box>
 
+    
+   
   
   )
 }

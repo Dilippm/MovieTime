@@ -81,7 +81,7 @@ const userLogin = async (req, res, next) => {
     const token = jwt.sign({id:user._id},jwtSecret,{expiresIn:"1d"})
     return res
         .status(200)
-        .json({message: "Login successfull"});
+        .json({message: "Login successfull",id: user._id,token});
 }
 /** user update */
 const updateUser = async (req, res, next) => {

@@ -5,11 +5,14 @@ import Link from '@mui/material/Link';
 import { useNavigate } from "react-router-dom";
 import { ownerLogin } from '../../api-helpers/api-helpers';
 import { ToastContainer, toast } from 'react-toastify';
+import {useDispatch} from "react-redux";
+import {ownerActions } from "../../store"
 import 'react-toastify/dist/ReactToastify.css';
 
 
 const OwnerLogin = () => {
   const navigate = useNavigate()
+  const dispatch= useDispatch();
   const [inputs, setInputs] = useState(
     { email: '', password: '' }
   );
@@ -28,6 +31,8 @@ const OwnerLogin = () => {
       const resData = await ownerLogin(inputs);
       if (resData) {
         // Login success
+        dispatch(ownerActions.login())
+      localStorage.setItem("ownerId",resData.id,resData.token)
         toast.success(resData.message);
         navigate('/owner_home');
       }

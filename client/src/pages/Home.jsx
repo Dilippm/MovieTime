@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import {getAllMovies} from '../api-helpers/api-helpers';
 
+
 import MovieItems from './Movies/MovieItems';
 const Home = () => {
     const [movies, setMovies] = useState([])
@@ -17,7 +18,7 @@ const Home = () => {
             .then((data) => setMovies(data.movies))
             .catch(err => console.log(err))
         }, [])
-    console.log(movies);
+
     return (
         <> < Header /> <Box width={"100%"} height={"100%"} margin={"auto"} marginTop={2}>
             <Box
