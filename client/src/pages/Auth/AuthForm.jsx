@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 const AuthForm = ({ onSubmit }) => {
+ 
   const navigate = useNavigate()
   const [inputs, setInputs] = useState(
     { name: '', email: '', password: '', mobile: '' }

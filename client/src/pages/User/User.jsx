@@ -6,10 +6,13 @@ import {  useNavigate } from "react-router-dom";
 import { sendUserAuthRequest } from '../../api-helpers/api-helpers';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import {useDispatch} from "react-redux"
+import {userActions} from "../../store"
+import Header from "../../components/Header"
 
 
 const User = () => {
+  const dispatch= useDispatch();
   const navigate = useNavigate()
   const [inputs, setInputs] = useState(
     {  email: '', password: '' }
@@ -27,7 +30,11 @@ const User = () => {
   e.preventDefault();
   try {
     const resData = await sendUserAuthRequest(inputs); 
+
     if (resData) {
+      dispatch(userActions.login());
+      localStorage.setItem("userId",resData.id)
+      localStorage.setItem("token",resData.token)
       // Login success
       toast.success(resData.message);
       navigate('/');
@@ -44,7 +51,8 @@ const User = () => {
   
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+    <> < Header /> <Box width={"100%"} height={"100%"} margin={"auto"} marginTop={2}>  
+     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }}>
   <Box
     sx={{
       width: 500,
@@ -54,7 +62,7 @@ const User = () => {
     }}
   >
      <Typography variant='h4' textAlign='center' marginTop={3}>
-      LOGIN
+      <b> LOGIN</b>
       </Typography>
       <form onSubmit={handleSubmit}>
         <Box
@@ -88,12 +96,12 @@ const User = () => {
             variant='standard'
             type='password'
             name='password' /> 
-          <Button sx={{ mt: 2, borderRadius: 10, bgcolor: '#2b2d42' }} type='submit' fullWidth variant='contained'>
-            Login
+          <Button sx={{ mt: 8, borderRadius: 10, bgcolor: '#2b2d42' }} type='submit' fullWidth variant='contained'>
+            <b> Login</b>
           </Button>
           <Link
               sx={{
-                mt: 3,
+                mt: 5,
                 fontSize: 20,
                 textDecoration: 'none',
                 '&:hover': {
@@ -103,7 +111,7 @@ const User = () => {
                 textAlign: 'center'
               }}
               onClick={() => {
-                navigate('/owner_register')
+                navigate('/register')
               }}
             >
               <b> Register</b>
@@ -127,6 +135,8 @@ const User = () => {
         pauseOnHover
       />
 </Box>
+    </Box></>
+   
 
   
   )
