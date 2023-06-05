@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import axios from 'axios';
+import BaseURL from '../../config'
 import {Box, Button, FormLabel, Typography} from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
@@ -6,8 +8,15 @@ import {useNavigate} from "react-router-dom";
 import Header from '../../components/Header'
 import {sendUserRegister} from '../../api-helpers/api-helpers';
 import { ToastContainer, toast } from 'react-toastify';
+import { GoogleLogin } from '@react-oauth/google'
+import jwt_decode from 'jwt-decode'
+import {useDispatch} from "react-redux"
+import {userActions} from "../../store"
 import 'react-toastify/dist/ReactToastify.css';
+
+
 const UserRegister = () => {
+    const dispatch= useDispatch();
     const navigate = useNavigate()
     const [inputs, setInputs] = useState(
         {name: '', email: '', password: '', phone: ''}
@@ -38,6 +47,44 @@ const UserRegister = () => {
         }
       }
         }
+        /**Google signup */
+        async function googleSuccess(response) {
+            const decoded = jwt_decode(response.credential);
+            console.log("decoded", decoded);
+          
+            const user = {
+              name: decoded.name,
+              email: decoded.email,
+              password: decoded.sub,
+              image: decoded.picture
+            };
+            console.log("user:", user);
+            try {
+              const respo = await axios.post(`${BaseURL}user/google_login`, { user });
+          
+              console.log("google:", respo);
+             
+          
+              
+            if(respo){
+                console.log("gone to if");
+              dispatch(userActions.login());
+                // localStorage.setItem("user".respo.data.id);
+                 localStorage.setItem("token", respo.data.token);
+                
+                toast.success(respo.data.message);
+                navigate("/"); 
+            }
+                // Redirect to the login page
+             
+            } catch (error) {
+                toast.error(error.response.data.message)
+            }
+          }
+          
+        function googleError(response) {
+            console.log('error', response);
+        }
 
     return (
         <> < Header /> <Box width={"100%"} height={"100%"} margin={"auto"} marginTop={2}> 
@@ -51,7 +98,7 @@ const UserRegister = () => {
         <Box
             sx={{
                 width: 500,
-                height: 600,
+                height: 650,
                 backgroundColor: '#eeeeee'
             }}>
             <Typography variant='h4' textAlign='center' marginTop={3}>
@@ -124,6 +171,15 @@ const UserRegister = () => {
                         variant='contained'>
                       <b>Register</b>  
                     </Button>
+                    <Box sx={{mt:3 }}> 
+                    <GoogleLogin
+  className="my-button"
+  onSuccess={googleSuccess}
+  onError={googleError}
+  
+/>
+                    </Box>
+                    
                     <Link
 sx={{
 mt: 3,

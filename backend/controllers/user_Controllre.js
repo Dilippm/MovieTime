@@ -53,7 +53,38 @@ const userRegister = async (req, res, next) => {
         .json({message: "Registered successfully", id:user._id});
 
 }
+/**user googlelogin */
 
+const userGooleLogin = async (req, res) => {
+    const { name, email, password, image } = req.body.user;
+    console.log(req.body);
+    console.log('password:', password);
+
+    try {
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            const token = jwt.sign({id:existingUser._id},jwtSecret,{expiresIn:"1d"})
+            return res
+                .status(200)
+                .json({message: "Login successfull",id: existingUser._id,token});
+        }
+        
+  
+      const hashedPassword = await bcrypt.hash(password, 10);
+      
+      const user = new User({ name, email, password: hashedPassword, image });
+      console.log("user kitti", user);
+      await user.save();
+  
+      const token = jwt.sign({id:user._id},jwtSecret,{expiresIn:"1d"})
+    return res
+        .status(200)
+        .json({message: "Login successfull",id: user._id,token});
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Unexpected error occurred" });
+    }
+  };
 /*user Login*/
 const userLogin = async (req, res, next) => {
     const {email, password} = req.body;
@@ -136,5 +167,6 @@ module.exports = {
     userRegister,
     updateUser,
     userLogin,
-    getBookingsofUser
+    getBookingsofUser,
+    userGooleLogin
 };

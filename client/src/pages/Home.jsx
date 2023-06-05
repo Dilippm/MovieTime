@@ -14,6 +14,7 @@ import MovieItems from './Movies/MovieItems';
 const Home = () => {
     const [movies, setMovies] = useState([])
     useEffect(() => {
+        console.log("inside homepage");
         getAllMovies()
             .then((data) => setMovies(data.movies))
             .catch(err => console.log(err))

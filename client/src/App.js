@@ -7,6 +7,7 @@ import Movies from './pages/Movies/Movies';
 import AdminLogin from './pages/Admin/AdminLogin';
 import Admin from './pages/Admin/AdminHome';
 import User from './pages/User/User';
+import UserProfile from './pages/Profile/userProfile';
 import UserRegistration from './pages/User/UserRegister';
 import OwnerLogin from './pages/Owner/OwnerLogin';
 import OwnerRegister from './pages/Owner/OwnerRegister';
@@ -40,10 +41,12 @@ const App = () => {
       <section >
        
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/movies" element={<Movies />} />
-          <Route path="/login" element={<User />} />
-          <Route path="/register" element={<UserRegistration />} />
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/movies" element={<Movies />} />
+          <Route exact path="/login" element={<User />} />
+          <Route exact path="/register" element={<UserRegistration />} />
+          <Route path='/profile' element ={<UserProfile/>}/> 
+        
         </Routes>
       </section>
 

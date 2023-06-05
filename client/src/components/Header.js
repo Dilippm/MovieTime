@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { AppBar, Toolbar, Tabs, Tab } from '@mui/material';
 import { Box } from '@mui/system';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../store';
 
@@ -16,11 +16,13 @@ const Header = () => {
   };
 
   return (
-    <AppBar position="sticky" sx={{ bgcolor: 'black' }}>
+    <AppBar position="sticky" sx={{ bgcolor: 'black',height:"100px",justifyContent:"center"  }}>
       <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Box width={'8%'}>
-          <img src={logo} alt="logo" style={{ width: '100%', height: 'auto', marginLeft: '40px' }} />
-        </Box>
+        
+        <Typography variant="h3" noWrap component="div">
+            MovieTime
+          </Typography>
+        
 
         <Box display="flex" flex="1" justifyContent= "center">
           <Tabs
@@ -40,7 +42,7 @@ const Header = () => {
             )}
  {isUserLoggedIn && (
             
-            <Tab  onClick={() => logOut()} LinkComponent={Link} to="/" label="logout" sx={{ fontSize: '20px', '&:hover': { color: 'yellow' },paddingLeft:'30px' }} />
+            <Tab  onClick={() => logOut()} LinkComponent={Link} to="/" label="logout" sx={{ fontSize: '20px', '&:hover': { color: 'yellow' },paddingLeft:'50px' }} />
             )}  
              {!isUserLoggedIn && (
             
