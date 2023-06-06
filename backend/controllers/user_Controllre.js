@@ -162,11 +162,33 @@ const getBookingsofUser =async(req,res,next)=>{
     }
     return res.status(200).json({bookings})
 }
+const getUser= async(req,res,next)=>{
+    const {id} = req.params;
+    try {
+        let user = await User.findById(id);
+        if (!user) {
+            return res
+                .status(404)
+                .json({message: "User not found"});
+        }
+        return res
+        .status(200)
+        .json({message: "user found successfully", user});
+
+    } catch (error) {
+        console.log(error);
+        return res
+            .status(500)
+            .json({message: "Something went wrong"});
+        
+    }
+}
 module.exports = {
     getUsers,
     userRegister,
     updateUser,
     userLogin,
     getBookingsofUser,
-    userGooleLogin
+    userGooleLogin,
+    getUser
 };

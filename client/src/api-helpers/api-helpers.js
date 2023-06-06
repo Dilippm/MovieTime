@@ -106,3 +106,35 @@ export const OwnerSignup = async(data)=>{
   }
 }
 
+/** Get user Profile */
+export const UserProfiles = async()=>{
+  const id= localStorage.getItem("userId");
+  const res = await axios.get(`${BaseURL}user/${id}`);
+  if(res.status!==200){
+    return console.log("unexpected error");
+  }
+
+
+  const resData = res.data;
+  return resData
+}
+export const updateUserProfile= async(data)=>{
+  
+try {
+  const id= localStorage.getItem("userId");
+  const res = await axios.put(`${BaseURL}user/${id}`,{
+    name:data.name,
+    email: data.email,
+   
+    phone: data.phone
+    
+  });
+  const resData = res.data;
+    return resData;
+  
+} catch (error) {
+  console.log(error);
+    throw error
+  
+}
+}

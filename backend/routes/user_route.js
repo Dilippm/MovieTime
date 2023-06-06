@@ -1,5 +1,5 @@
 const express = require("express");
-const {getUsers, userRegister, updateUser, userLogin, getBookingsofUser,userGooleLogin} = require(
+const {getUsers, userRegister, updateUser, userLogin, getBookingsofUser,userGooleLogin,getUser} = require(
     "../controllers/user_Controllre"
 );
 
@@ -15,6 +15,7 @@ userRouter.get("/booking/:id", getBookingsofUser);
 userRouter.post('/register', userRegister)
 userRouter.post('/login', userLogin)
 userRouter.post('/google_login', userGooleLogin)
+userRouter.get('/:id',getUser)
 
 /**PUT ROUTES */
 
