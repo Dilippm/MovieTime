@@ -71,9 +71,73 @@ const ownerLogin = async (req,res,next)=>{
         .json({message: "Login successfull",token,id:owner._id});
 
 }
+const getOwner =async(req,res,next)=>{
+    const {id} = req.params;
+    try {
+        let owner = await Owner.findById(id);
+        console.log("suer",owner);
+        if (!owner) {
+            return res
+                .status(404)
+                .json({message: "Admin not found"});
+        }
+        console.log("user:",owner);
+        return res
+        .status(200)
+        .json({message: "user found successfully", owner});
+
+    } catch (error) {
+        console.log(error);
+        return res
+            .status(500)
+            .json({message: "Something went wrong"});
+        
+    }
+}
+/** admin update */
+const updateOwner = async (req, res, next) => {
+    const { id } = req.params;
+  
+    const { name, email, phone } = JSON.parse(req.body.ownerdata);
+  
+    try {
+      // Find the user by id
+      let owner = await Owner.findById(id);
+  
+      if (!owner) {
+        return res.status(404).json({ message: "Admin not found" });
+      }
+  
+      // Update the user properties
+      owner.name = name;
+      owner.email = email;
+      owner.phone = phone;
+  
+      // Check if a file was uploaded
+      if (req.file) {
+        // Generate a URL for the uploaded image
+        const imageUrl = `http://localhost:5000/public/images/${req.file.filename}`;
+        // Store the image URL in the user's profile
+        owner.image = imageUrl;
+      }
+  
+      // Save the updated user
+      owner = await owner.save();
+  
+      return res.status(200).json({ message: "Updated successfully", owner });
+    } catch (error) {
+      console.log("on error");
+      console.log(error);
+      return res.status(500).json({ message: "Something went wrong" });
+    }
+  };
+  
 module.exports ={
     ownerRegister,
     getUsers,
-    ownerLogin
+    ownerLogin,
+    getOwner,
+    updateOwner
+
 
 }

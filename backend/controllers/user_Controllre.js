@@ -116,37 +116,41 @@ const userLogin = async (req, res, next) => {
 }
 /** user update */
 const updateUser = async (req, res, next) => {
-    const {id} = req.params;
-    const {name, email, phone} = req.body;
+  const { id } = req.params;
+  const { name, email, phone } = JSON.parse(req.body.userdata);
 
-    try {
-        // Find the user by id
-        let user = await User.findById(id);
+  try {
+    // Find the user by id
+    let user = await User.findById(id);
 
-        if (!user) {
-            return res
-                .status(404)
-                .json({message: "User not found"});
-        }
-
-        // Update the user properties
-        user.name = name;
-        user.email = email;
-        user.phone = phone;
-
-        // Save the updated user
-        user = await user.save();
-
-        return res
-            .status(200)
-            .json({message: "Updated successfully", user});
-    } catch (error) {
-        console.log(error);
-        return res
-            .status(500)
-            .json({message: "Something went wrong"});
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
+
+    // Update the user properties
+    user.name = name;
+    user.email = email;
+    user.phone = phone;
+
+    // Check if a file was uploaded
+    if (req.file) {
+      // Generate a URL for the uploaded image
+      const imageUrl = `http://localhost:5000/public/images/${req.file.filename}`;
+      // Store the image URL in the user's profile
+      user.image = imageUrl;
+    }
+
+    // Save the updated user
+    user = await user.save();
+
+    return res.status(200).json({ message: "Updated successfully", user });
+  } catch (error) {
+    console.log("on error");
+    console.log(error);
+    return res.status(500).json({ message: "Something went wrong" });
+  }
 };
+
 /**get user booking using userid */
 const getBookingsofUser =async(req,res,next)=>{
     const id= req.params.id;
@@ -162,15 +166,19 @@ const getBookingsofUser =async(req,res,next)=>{
     }
     return res.status(200).json({bookings})
 }
+
+
 const getUser= async(req,res,next)=>{
     const {id} = req.params;
     try {
         let user = await User.findById(id);
+        console.log("suer",user);
         if (!user) {
             return res
                 .status(404)
                 .json({message: "User not found"});
         }
+        console.log("user:",user);
         return res
         .status(200)
         .json({message: "user found successfully", user});

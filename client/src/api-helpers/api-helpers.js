@@ -116,19 +116,25 @@ export const UserProfiles = async()=>{
 
 
   const resData = res.data;
+  console.log("resData:",resData);
   return resData
 }
-export const updateUserProfile= async(data)=>{
+/**update user profile */
+export const updateUserProfile= async(data,image)=>{
   
 try {
   const id= localStorage.getItem("userId");
-  const res = await axios.put(`${BaseURL}user/${id}`,{
-    name:data.name,
-    email: data.email,
-   
-    phone: data.phone
-    
-  });
+  const formData = new FormData();
+  formData.append("image",image);
+  formData.append("userdata",JSON.stringify(data))
+  const config = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+     
+    },
+    withCredentials: true,
+  };
+  const res = await axios.post(`${BaseURL}user/${id}`,formData,config);
   const resData = res.data;
     return resData;
   
@@ -138,3 +144,80 @@ try {
   
 }
 }
+/** Get Admin Profile */
+export const AdminProfiles = async()=>{
+  const id= localStorage.getItem("adminId");
+  const res = await axios.get(`${BaseURL}admin/${id}`);
+  if(res.status!==200){
+    return console.log("unexpected error");
+  }
+
+
+  const resData = res.data;
+  console.log("resData:",resData);
+  return resData
+}
+/**update admin profile */
+export const updateAdminProfile= async(data,image)=>{
+  
+  try {
+    const id= localStorage.getItem("adminId");
+    const formData = new FormData();
+    formData.append("image",image);
+    formData.append("admindata",JSON.stringify(data))
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+       
+      },
+      withCredentials: true,
+    };
+    const res = await axios.post(`${BaseURL}admin/${id}`,formData,config);
+    const resData = res.data;
+      return resData;
+    
+  } catch (error) {
+    console.log(error);
+      throw error
+    
+  }
+  }
+
+  /** Get Owner Profile */
+export const OwnerProfiles = async()=>{
+  const id= localStorage.getItem("ownerId");
+  const res = await axios.get(`${BaseURL}owner/${id}`);
+  if(res.status!==200){
+    return console.log("unexpected error");
+  }
+
+
+  const resData = res.data;
+  console.log("resData:",resData);
+  return resData
+}
+/**update admin profile */
+export const updateOwnerProfile= async(data,image)=>{
+  
+  try {
+    const id= localStorage.getItem("ownerId");
+    const formData = new FormData();
+    formData.append("image",image);
+    formData.append("ownerdata",JSON.stringify(data))
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+       
+      },
+      withCredentials: true,
+    };
+    const res = await axios.post(`${BaseURL}owner/${id}`,formData,config);
+    const resData = res.data;
+      return resData;
+    
+  } catch (error) {
+    console.log(error);
+      throw error
+    
+  }
+  }

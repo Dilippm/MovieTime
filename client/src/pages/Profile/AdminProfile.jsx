@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import Header from '../../components/Header';
+import AdminHeader from '../../components/AdminHeader';
 import { Box, Button, FormLabel, Typography } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import { ToastContainer, toast } from 'react-toastify';
-import { UserProfiles, updateUserProfile } from "../../api-helpers/api-helpers";
+import { AdminProfiles, updateAdminProfile } from "../../api-helpers/api-helpers";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 
-const UserProfile = () => {
-  const [state, setState] = useState({ user: {} });
+
+const AdminProfile = () => {
+  const [state, setState] = useState({ admin: {} });
   const [imageFile, setImageFile] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
 
@@ -18,10 +19,10 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const res = await UserProfiles();
-        console.log("resdata:",res);
+        const res = await AdminProfiles();
+        console.log("resdataprofile:",res);
         setState(res);
-        setImageUrl(res.user.image);
+        setImageUrl(res.admin.image);
       } catch (error) {
         console.log(error);
       }
@@ -34,15 +35,15 @@ const UserProfile = () => {
     event.preventDefault();
 
     try {
-      const resData = await updateUserProfile(state.user, imageFile);
+      const resData = await updateAdminProfile(state.admin, imageFile);
       if (resData) {
         toast.success("Profile updated successfully");
-        navigate('/profile');
+        navigate('/adminprofile');
       }
     } catch (error) {
       console.log(error);
       toast.error("Failed to update profile");
-      navigate('/profile');
+      navigate('/adminprofile');
     }
   };
 
@@ -50,8 +51,8 @@ const UserProfile = () => {
     const { name, value } = event.target;
     setState((prevState) => ({
       ...prevState,
-      user: {
-        ...prevState.user,
+      admin: {
+        ...prevState.admin,
         [name]: value
       }
     }));
@@ -71,7 +72,7 @@ const UserProfile = () => {
 
   return (
     <>
-      <Header />
+      <AdminHeader/>
       <Box width={"100%"} height={"100%"} margin={"auto"} marginTop={3}>
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
           <Box sx={{ width: 500, height: 750, backgroundColor: '#eeeeee' }}>
@@ -96,7 +97,7 @@ const UserProfile = () => {
 
                 <FormLabel sx={{ mt: 1, mb: 1 }}>Username</FormLabel>
                 <TextField
-                  value={state.user.name}
+                  value={state.admin.name}
                   onChange={handleChange}
                   margin='normal'
                   variant='standard'
@@ -106,7 +107,7 @@ const UserProfile = () => {
 
                 <FormLabel sx={{ mt: 1, mb: 1 }}>Email</FormLabel>
                 <TextField
-                  value={state.user.email}
+                  value={state.admin.email}
                   onChange={handleChange}
                   margin='normal'
                   variant='standard'
@@ -116,7 +117,7 @@ const UserProfile = () => {
 
                 <FormLabel sx={{ mt: 1, mb: 1 }}>Phone</FormLabel>
                 <TextField
-                  value={state.user.phone}
+                  value={state.admin.phone}
                   onChange={handleChange}
                   margin='normal'
                   variant='standard'
@@ -147,4 +148,5 @@ const UserProfile = () => {
   );
 }
 
-export default UserProfile;
+export default AdminProfile;
+

@@ -1,6 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require('cors');
+const path = require('path');
+
+const app = express();
+
 
 const userRouter  = require("./routes/user_route");
 const ownerRouter =require("./routes/owner_route")
@@ -8,23 +12,21 @@ const adminRouter =require("./routes/admin_route");
 const movieRouter= require("./routes/movie_route")
 const bookingRouter =require("./routes/booking_route")
 
-const app = express();
 app.use(express.json());
 // Enable CORS
 app.use(
   cors({
     origin: 'http://localhost:3000',
+    credentials: true,
   })
 );
-
-
+app.use('/public/images',express.static('public/images'))
 /*middlewares*/
 app.use("/user", userRouter);
 app.use("/owner", ownerRouter);
 app.use("/admin",adminRouter);
 app.use("/movie",movieRouter);
 app.use("/booking",bookingRouter);
-
 
 // server connection
 app.listen(5000, () => {

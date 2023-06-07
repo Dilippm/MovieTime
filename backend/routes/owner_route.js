@@ -1,15 +1,18 @@
 const express = require("express");
+const { uploadOptions } = require("../multer/multer");
 const { ownerRegister,
-    getUsers,
-    ownerLogin } = require("../controllers/owner_controllre");
+   
+    ownerLogin,
+getOwner,
+updateOwner } = require("../controllers/owner_controllre");
 const ownerRoute = express.Router();
 
 /*POST Routes*/
 ownerRoute.post('/register', ownerRegister)
 ownerRoute.post('/login', ownerLogin)
 /*PUT Routes*/
-ownerRoute.put('/:id')
+ownerRoute.post('/:id',uploadOptions.single("image") ,updateOwner)
 /*GET Routes*/
-ownerRoute.get('/getusers', getUsers)
+ownerRoute.get('/:id',getOwner)
 
 module.exports = ownerRoute;

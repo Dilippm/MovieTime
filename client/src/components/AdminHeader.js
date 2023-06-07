@@ -20,6 +20,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { adminActions } from '../store';
 import { useDispatch } from 'react-redux';
 import Avatar from '@mui/material/Avatar';
+import {  Tab,Tabs } from '@mui/material';
 
 const drawerWidth = 300;
 
@@ -48,7 +49,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-const OwnerHeader = () => {
+const AdminHeader = () => {
   const navigate = useNavigate();
   const menuItems = [
     { text: 'Dashboard', route: '/admin_home' },
@@ -92,6 +93,25 @@ const OwnerHeader = () => {
           <Typography variant="h3" noWrap component="div">
             MovieTime
           </Typography>
+          <Tabs
+  textColor="white"
+  indicatorColor="secondary"
+  aria-label="secondary tabs example"
+  sx={{
+    marginLeft: 'auto', // Align Tabs to the right
+  }}
+>
+  <Tab
+    LinkComponent={Link}
+    to="/adminprofile"
+    label="profile"
+    sx={{
+      fontSize: '20px',
+      '&:hover': {},
+    }}
+  />
+</Tabs>
+
         </Toolbar>
       </MuiAppBar>
       <Drawer
@@ -176,4 +196,4 @@ const OwnerHeader = () => {
   );
 };
 
-export default OwnerHeader;
+export default AdminHeader;

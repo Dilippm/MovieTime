@@ -2,6 +2,7 @@ const express = require("express");
 const {getUsers, userRegister, updateUser, userLogin, getBookingsofUser,userGooleLogin,getUser} = require(
     "../controllers/user_Controllre"
 );
+const { uploadOptions } = require("../multer/multer");
 
 const userRouter = express.Router();
 
@@ -19,6 +20,6 @@ userRouter.get('/:id',getUser)
 
 /**PUT ROUTES */
 
-userRouter.put('/:id', updateUser)
+userRouter.post('/:id',uploadOptions.single("image") ,updateUser)
 
 module.exports = userRouter;

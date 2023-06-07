@@ -20,6 +20,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ownerActions } from '../store';
 import { useDispatch } from 'react-redux';
 import Avatar from '@mui/material/Avatar';
+import {  Tab,Tabs } from '@mui/material';
 
 const drawerWidth = 300;
 
@@ -56,7 +57,7 @@ const OwnerHeader = () => {
     { text: 'User', route: '/admin_user' },
     { text: 'Theater', route: '/admin_theater' },
     { text: 'Movie', route: '/admin_movie' },
-    { text: 'Revenue Report', route: '/admin_movie' },
+    { text: 'Revenue Report', route: '/admin_report' },
   ];
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
@@ -92,6 +93,25 @@ const OwnerHeader = () => {
           <Typography variant="h3" noWrap component="div">
             MovieTime
           </Typography>
+          <Tabs
+  textColor="white"
+  indicatorColor="secondary"
+  aria-label="secondary tabs example"
+  sx={{
+    marginLeft: 'auto', // Align Tabs to the right
+  }}
+>
+  <Tab
+    LinkComponent={Link}
+    to="/ownerprofile"
+    label="profile"
+    sx={{
+      fontSize: '20px',
+      '&:hover': {},
+    }}
+  />
+</Tabs>
+
         </Toolbar>
       </MuiAppBar>
       <Drawer

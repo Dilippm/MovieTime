@@ -11,7 +11,7 @@ const FILE_TYPE_MAP = {
 
 //profile images
 
-const imagesDirectory = path.join(__dirname, '../../public/images/');
+const imagesDirectory = path.join(__dirname, '../public/images');
 
 if (!fs.existsSync(imagesDirectory)) {
   fs.mkdirSync(imagesDirectory, { recursive: true });
@@ -37,30 +37,5 @@ const uploadOptions = multer({ storage: storage });
 
 
 
-// // movie images 
-
-// const imagesPath = path.join(__dirname, '../../public/movie/');
-
-
-// if (!fs.existsSync(imagesPath)) {
-//   fs.mkdirSync(imagesPath, { recursive: true });
-// }
-
-// const storages = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     const isValid = FILE_TYPE_MAP[file.mimetype];
-//     let uploadError = new Error("invalid image type");
-//     console.log('here');
-//     if (isValid) {
-//       uploadError = null;
-//     }
-//     cb(uploadError, imagesPath);
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, `${Date.now()}-${file.originalname}`);
-//   },
-// });
-
-// const uploadlicense = multer({ storage: storages });
 
 module.exports = { uploadOptions };
