@@ -24,6 +24,13 @@ const adminSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
+    users :[
+        {
+            type :mongoose.Types.ObjectId,
+            ref:"User"
+        }
+    ],
+
     movies:[
         {
             type:mongoose.Types.ObjectId,

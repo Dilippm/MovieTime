@@ -103,12 +103,34 @@ const updateAdmin = async (req, res, next) => {
     }
 }
 
+  /** GET users */
+  const getUsers = async (req, res, next) => {
+    try {
+      // Fetch all admins and populate the 'user' field
+      const admins = await Admin.find().populate("user");
+      console.log("admins");
+      
+      // Extract the user data from admins
+      const users = admins.map((admin) => admin.user);
+      
+      // Send the users data in the response
+      res.json(users);
+    } catch (error) {
+      // Handle any errors that occur
+      res.status(500).json({ message: "Failed to fetch users" });
+    }
+  };
+  
+  module.exports = getUsers;
+  
+
   
 
 
 module.exports = {
    adminLogin,
    updateAdmin,
-   getAdmin
+   getAdmin,
+   getUsers
  
 };

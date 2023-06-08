@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Admin =require("../models/Admin")
 const Booking = require("../models/Bookings")
 const bcrypt = require("bcryptjs");
 const config = require('../config');
@@ -40,6 +41,12 @@ const userRegister = async (req, res, next) => {
         user = new User({name, email, password: newPassword, phone});
         user = await user.save();
 
+        
+        let admin = await Admin.findOne();
+        admin.users.push(user);
+        admin = await admin.populate("users");
+        await admin.save();
+
     } catch (error) {
         return console.log(error);
     }
@@ -76,6 +83,10 @@ const userGooleLogin = async (req, res) => {
       console.log("user kitti", user);
       await user.save();
   
+      let admin = await Admin.findOne();
+      admin.users.push(user);
+      admin = await admin.populate("users");
+      await admin.save();
       const token = jwt.sign({id:user._id},jwtSecret,{expiresIn:"1d"})
     return res
         .status(200)

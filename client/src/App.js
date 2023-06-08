@@ -17,6 +17,7 @@ import { useEffect } from 'react';
 import { adminActions, userActions } from './store';
 import AdminProfile from './pages/Profile/AdminProfile';
 import OwnerProfile from './pages/Profile/Ownerprofile';
+import UserDetails from './pages/Admin/UserDetails';
 
 const App = () => {
   const navigate = useNavigate();
@@ -67,6 +68,7 @@ useEffect(()=>{
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin_home" element={<Admin />} />
           <Route path="/adminprofile" element={<AdminProfile />} />
+          <Route path ="/admin-users" element={<UserDetails/>}/>
         </Routes>
       </section>
 

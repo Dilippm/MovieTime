@@ -54,7 +54,7 @@ const AdminHeader = () => {
   const menuItems = [
     { text: 'Dashboard', route: '/admin_home' },
     { text: 'Banner', route: '/admin' },
-    { text: 'User', route: '/admin_user' },
+    { text: 'User', route: '/admin-users' },
     { text: 'Theater', route: '/admin_theater' },
     { text: 'Movie', route: '/admin_movie' },
     { text: 'Revenue Report', route: '/admin_report' },
