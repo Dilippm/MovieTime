@@ -10,13 +10,13 @@ const userRouter = express.Router();
 
 userRouter.get("/", getUsers);
 userRouter.get("/booking/:id", getBookingsofUser);
-
+userRouter.get('/:id',getUser)
 /**POST ROUTES */
 
 userRouter.post('/register', userRegister)
 userRouter.post('/login', userLogin)
 userRouter.post('/google_login', userGooleLogin)
-userRouter.get('/:id',getUser)
+
 
 /**PUT ROUTES */
 

@@ -132,7 +132,7 @@ const updateAdmin = async (req, res, next) => {
   const updateuserStatus = async (req, res, next) => {
     
     const token = req.headers.authorization;
-
+console.log("token:",token);
     if (!token) {
       return res.status(404).json({ message: 'Token not found' });
     }
@@ -142,7 +142,7 @@ const updateAdmin = async (req, res, next) => {
     try {
   
       const decodedToken = jwt.verify(token.split(' ')[1], jwtSecret);
- 
+ console.log("decodedtoken:",decodedToken);
       adminId = decodedToken.id;
     } catch (error) {
       console.log(error);
@@ -153,11 +153,13 @@ const updateAdmin = async (req, res, next) => {
   
     try {
       const adminUser = await Admin.findOne({ _id: adminId }).populate('users');
+      console.log("adminuser:",adminUser);
       if (!adminUser) {
         return res.status(404).json({ message: 'Invalid admin ID' });
       }
   
       const user = adminUser.users.find((user) => user._id.toString() === userId);
+      console.log("user:",user);
       if (!user) {
         return res.status(404).json({ message: 'Invalid user ID' });
       }

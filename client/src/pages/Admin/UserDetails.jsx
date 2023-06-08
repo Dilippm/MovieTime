@@ -17,20 +17,23 @@ const UserDetails = () => {
   }, []);
 
   const changeUserStatus = async (index) => {
+    const startIndex = (currentPage - 1) * perPage;
+    const userIndex = startIndex + index;
+  
     try {
-      const userId = users[index]._id;
+      const userId = users[userIndex]._id;
       const token = localStorage.getItem('admintoken');
       const response = await axios.post(`${BaseURL}admin/users/${userId}`, null, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
+  
       if (response.status === 200) {
         const updatedStatus = response.data.user.status;
         setUsers((prevUsers) => {
           const updatedUsers = [...prevUsers];
-          updatedUsers[index].status = updatedStatus;
+          updatedUsers[userIndex].status = updatedStatus;
           return updatedUsers;
         });
       }
@@ -38,7 +41,7 @@ const UserDetails = () => {
       console.log(error);
     }
   };
-
+  
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => prevPage - 1);
   };
