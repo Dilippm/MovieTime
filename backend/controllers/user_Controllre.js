@@ -125,6 +125,11 @@ const userLogin = async (req, res, next) => {
         .status(400)
         .json({error: "Sorry! blocked by Admin..."})
     }
+    if(!user.status){
+        return res
+        .status(400)
+        .json({error: "Sorry! blocked by Admin..."})
+    }
     
     const token = jwt.sign({id:user._id},jwtSecret,{expiresIn:"1d"})
     return res
