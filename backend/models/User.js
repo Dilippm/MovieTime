@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema({
        
         minLength: 10
     },
+    status:{
+        type:Boolean,
+        default: true
+    },
     image: {
         type: String,
         default: ''

@@ -107,21 +107,78 @@ const updateAdmin = async (req, res, next) => {
   const getUsers = async (req, res, next) => {
     try {
       // Fetch all admins and populate the 'user' field
-      const admins = await Admin.find().populate("user");
-      console.log("admins");
+      let adminId = req.params.id;
+
+   
+      const admin = await Admin.findById(adminId).populate({
+        path: "users",
+        select: "name email phone status" // Specify the fields you want to retrieve
+      });
+      if (!admin) {
+        return res.status(404).json({ message: "Admin not found" });
+      }
       
-      // Extract the user data from admins
-      const users = admins.map((admin) => admin.user);
-      
-      // Send the users data in the response
-      res.json(users);
+      const users = admin.users;
+
+      res.json({ message: "Users found", users });;
     } catch (error) {
       // Handle any errors that occur
       res.status(500).json({ message: "Failed to fetch users" });
     }
   };
   
-  module.exports = getUsers;
+
+
+  const updateuserStatus = async (req, res, next) => {
+    
+    const token = req.headers.authorization;
+
+    if (!token) {
+      return res.status(404).json({ message: 'Token not found' });
+    }
+   
+    let adminId;
+  
+    try {
+  
+      const decodedToken = jwt.verify(token.split(' ')[1], jwtSecret);
+ 
+      adminId = decodedToken.id;
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({ message: error.message });
+    }
+    console.log("verified token:", adminId);
+    const userId = req.params.id;
+  
+    try {
+      const adminUser = await Admin.findOne({ _id: adminId }).populate('users');
+      if (!adminUser) {
+        return res.status(404).json({ message: 'Invalid admin ID' });
+      }
+  
+      const user = adminUser.users.find((user) => user._id.toString() === userId);
+      if (!user) {
+        return res.status(404).json({ message: 'Invalid user ID' });
+      }
+  
+      
+      if (user.status) {
+        user.status = false; 
+      } else if(user.status==false) {
+        user.status = true; 
+      }
+      
+      await user.save();
+      
+  
+      return res.status(200).json({ message: 'User updated successfully', user });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: 'Request failed' });
+    }
+  };
+  
   
 
   
@@ -131,6 +188,7 @@ module.exports = {
    adminLogin,
    updateAdmin,
    getAdmin,
-   getUsers
+   getUsers,
+   updateuserStatus
  
 };

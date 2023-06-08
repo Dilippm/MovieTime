@@ -80,7 +80,7 @@ const userGooleLogin = async (req, res) => {
       const hashedPassword = await bcrypt.hash(password, 10);
       
       const user = new User({ name, email, password: hashedPassword, image });
-      console.log("user kitti", user);
+      
       await user.save();
   
       let admin = await Admin.findOne();

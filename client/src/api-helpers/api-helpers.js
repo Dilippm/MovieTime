@@ -59,6 +59,8 @@ export const adminLogin = async (data) => {
     });
 
     const resData = res.data;
+    console.log("resData admin:" ,resData);
+    localStorage.setItem("admintoken",resData.token)
     return resData;
   } catch (err) {
     console.log(err);
@@ -196,7 +198,7 @@ export const OwnerProfiles = async()=>{
   console.log("resData:",resData);
   return resData
 }
-/**update admin profile */
+/**update owner profile */
 export const updateOwnerProfile= async(data,image)=>{
   
   try {
@@ -220,4 +222,17 @@ export const updateOwnerProfile= async(data,image)=>{
       throw error
     
   }
+  }
+
+  /**get all users */
+  export const getUsers = async()=>{
+    const id= localStorage.getItem("adminId");
+    const res = await axios.get(`${BaseURL}admin/users/${id}`);
+    if(res.status!==200){
+      return console.log("unexpected error");
+    }
+    const resData = res.data;
+    console.log("resData:",resData);
+    return resData
+  
   }
