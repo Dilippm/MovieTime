@@ -120,6 +120,7 @@ const userLogin = async (req, res, next) => {
             .status(400)
             .json({error: "email or password wrong"})
     }
+    
     const token = jwt.sign({id:user._id},jwtSecret,{expiresIn:"1d"})
     return res
         .status(200)
