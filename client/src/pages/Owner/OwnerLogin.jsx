@@ -30,11 +30,13 @@ const OwnerLogin = () => {
     try {
       const resData = await ownerLogin(inputs);
       if (resData) {
+        console.log("owner data:",resData);
         // Login success
         dispatch(ownerActions.login())
-      localStorage.setItem("ownerId",resData.id,resData.token)
+      localStorage.setItem("ownerId",resData.id)
+      localStorage.setItem("ownertoken",resData.token)
         toast.success(resData.message);
-        navigate('/owner_home');
+        navigate('/owner/home');
       }
     } catch (err) {
       console.log(err);

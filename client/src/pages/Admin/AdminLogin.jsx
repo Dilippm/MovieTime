@@ -34,7 +34,7 @@ const AdminLogin = () => {
       localStorage.setItem("adminId",resData.id,resData.token)
       // Login success
       toast.success(resData.message);
-      navigate('/admin_home');
+      navigate('/home');
     } 
   } catch (err) {
     console.log(err);

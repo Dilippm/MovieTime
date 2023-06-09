@@ -52,9 +52,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 const AdminHeader = () => {
   const navigate = useNavigate();
   const menuItems = [
-    { text: 'Dashboard', route: '/admin_home' },
+    { text: 'Dashboard', route: '/admin/home' },
     { text: 'Banner', route: '/admin' },
-    { text: 'User', route: '/admin-users' },
+    { text: 'User', route: '/admin/admin_users' },
     { text: 'Theater', route: '/admin_theater' },
     { text: 'Movie', route: '/admin_movie' },
     { text: 'Revenue Report', route: '/admin_report' },
@@ -73,7 +73,7 @@ const AdminHeader = () => {
 
   const logOut = () => {
     dispatch(adminActions.logout());
-    navigate('/admin');
+    navigate('/admin/admin');
   };
 
   return (
@@ -103,7 +103,7 @@ const AdminHeader = () => {
 >
   <Tab
     LinkComponent={Link}
-    to="/adminprofile"
+    to="/admin/adminprofile"
     label="profile"
     sx={{
       fontSize: '20px',

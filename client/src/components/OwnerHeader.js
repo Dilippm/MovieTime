@@ -52,7 +52,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 const OwnerHeader = () => {
   const navigate = useNavigate();
   const menuItems = [
-    { text: 'Dashboard', route: '/owner_home' },
+    { text: 'Dashboard', route: '/owner/home' },
     { text: 'Banner', route: '/admin' },
     { text: 'User', route: '/admin_user' },
     { text: 'Theater', route: '/admin_theater' },
@@ -73,7 +73,7 @@ const OwnerHeader = () => {
 
   const logOut = () => {
     dispatch(ownerActions.logout());
-    navigate('/owner');
+    navigate('/owner/login');
   };
 
   return (
@@ -103,7 +103,7 @@ const OwnerHeader = () => {
 >
   <Tab
     LinkComponent={Link}
-    to="/ownerprofile"
+    to="/owner/ownerprofile"
     label="profile"
     sx={{
       fontSize: '20px',
